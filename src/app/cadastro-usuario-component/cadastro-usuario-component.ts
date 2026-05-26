@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { senhaForte } from '../validators/senha-forte';
 import { senhasIguais } from '../validators/senhas-iguais';
 
@@ -10,27 +10,27 @@ import { senhasIguais } from '../validators/senhas-iguais';
   styleUrl: './cadastro-usuario-component.css',
 })
 export class CadastroUsuarioComponent {
-  enviado = false;
+  userForm;
 
-  userForm = new FormGroup(
-    {
-      nomeCompleto: new FormControl('', [
-        Validators.required,
-        Validators.minLength(5),
-        Validators.maxLength(100),
-      ]),
-      cpf: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/),
-      ]),
-      email: new FormControl('', [Validators.required, Validators.email]),
-      dataNascimento: new FormControl(),
-      senha: new FormControl('', [Validators.required, Validators.maxLength(8), senhaForte]),
-      confirmarSenha: new FormControl('', [Validators.required]),
-      perfil: new FormControl('', [Validators.required]),
-    },
-    [senhasIguais],
-  );
+  constructor(private fb: FormBuilder) {
+    this.userForm = this.fb.group(
+      {
+        nomeCompleto: [
+          '',
+          [Validators.required, Validators.minLength(5), Validators.maxLength(100)],
+        ],
+        cpf: ['', [Validators.required, Validators.pattern(/^\d{3}\.\d{3}\.\d{3}-\d{2}$/)]],
+        email: ['', [Validators.required, Validators.email]],
+        dataNascimento: [''],
+        senha: ['', [Validators.required, Validators.maxLength(8), senhaForte]],
+        confirmarSenha: ['', [Validators.required]],
+        perfil: ['', [Validators.required]],
+      },
+      { validators: [senhasIguais] },
+    );
+  }
+
+  enviado = false;
 
   getNome() {
     return this.userForm.get('nomeCompleto');
