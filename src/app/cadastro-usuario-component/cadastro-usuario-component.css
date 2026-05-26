@@ -1,0 +1,23 @@
+.form-container {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+input,
+select,
+button {
+  padding: 8px;
+  font-size: 14px;
+}
+
+button {
+  margin-top: 8px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: #c62828;
+  font-size: 12px;
+}

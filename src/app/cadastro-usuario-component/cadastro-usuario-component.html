@@ -1,0 +1,80 @@
+<form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container">
+  <label for="nomeCompleto">Nome completo:</label>
+  <input id="nomeCompleto" type="text" formControlName="nomeCompleto" />
+  @if (getNome()?.invalid && getNome()?.touched) {
+    @if (getNome()?.errors?.['required']) {
+      <span class="error-message">O nome é obrigatório.</span>
+    }
+    @if (getNome()?.errors?.['minlength']) {
+      <span class="error-message">O nome deve ter no mínimo 5 caracteres.</span>
+    }
+    @if (getNome()?.errors?.['maxlength']) {
+      <span class="error-message">O nome deve ter no máximo 100 caracteres.</span>
+    }
+  }
+
+  <label for="cpf">CPF:</label>
+  <input id="cpf" type="text" formControlName="cpf" placeholder="000.000.000-00" />
+  @if (getCpf()?.invalid && getCpf()?.touched) {
+    @if (getCpf()?.errors?.['required']) {
+      <span class="error-message">O CPF é obrigatório.</span>
+    }
+    @if (getCpf()?.errors?.['pattern']) {
+      <span class="error-message">Use o formato 000.000.000-00.</span>
+    }
+  }
+
+  <label for="email">E-mail:</label>
+  <input id="email" type="email" formControlName="email" />
+  @if (getEmail()?.invalid && getEmail()?.touched) {
+    @if (getEmail()?.errors?.['required']) {
+      <span class="error-message">O e-mail é obrigatório.</span>
+    }
+    @if (getEmail()?.errors?.['email']) {
+      <span class="error-message">E-mail inválido.</span>
+    }
+  }
+
+  <label for="dataNascimento">Data de nascimento:</label>
+  <input id="dataNascimento" type="date" formControlName="dataNascimento" />
+
+  <label for="senha">Senha:</label>
+  <input id="senha" type="password" formControlName="senha" />
+  @if (getSenha()?.invalid && getSenha()?.touched) {
+    @if (getSenha()?.errors?.['required']) {
+      <span class="error-message">A senha é obrigatória.</span>
+    }
+    @if (getSenha()?.errors?.['maxlength']) {
+      <span class="error-message">A senha deve ter no máximo 8 caracteres.</span>
+    }
+    @if (getSenha()?.errors?.['senhaFraca']) {
+      <span class="error-message">A senha deve conter letra maiúscula e número.</span>
+    }
+  }
+
+  <label for="confirmarSenha">Confirmar senha:</label>
+  <input id="confirmarSenha" type="password" formControlName="confirmarSenha" />
+  @if (getConfirmarSenha()?.invalid && getConfirmarSenha()?.touched) {
+    @if (getConfirmarSenha()?.errors?.['required']) {
+      <span class="error-message">A confirmação de senha é obrigatória.</span>
+    }
+  }
+  @if (userForm.errors?.['senhasDiferentes'] && (getConfirmarSenha()?.touched || enviado)) {
+    <span class="error-message">As senhas não coincidem.</span>
+  }
+
+  <label for="perfil">Perfil:</label>
+  <select id="perfil" formControlName="perfil">
+    <option value="">Selecione</option>
+    <option value="admin">Administrador</option>
+    <option value="editor">Editor</option>
+    <option value="usuario">Usuário</option>
+  </select>
+  @if (getPerfil()?.invalid && getPerfil()?.touched) {
+    @if (getPerfil()?.errors?.['required']) {
+      <span class="error-message">Selecione um perfil.</span>
+    }
+  }
+
+  <button type="submit" [disabled]="userForm.invalid">Cadastrar</button>
+</form>
