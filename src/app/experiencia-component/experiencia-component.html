@@ -1,0 +1,27 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+  <label for="empresa">Empresa:</label>
+  <input id="empresa" type="text" formControlName="empresa" />
+  @if (form.get('empresa')?.invalid && form.get('empresa')?.touched) {
+    <span class="error-message">Empresa é obrigatória.</span>
+  }
+
+  <div formArrayName="habilidades" class="habilidades-container">
+    <label>Habilidades:</label>
+    @for (habilidade of habilidades.controls; track $index) {
+      <div class="habilidade-linha">
+        <input type="text" [formControlName]="$index" placeholder="Digite uma habilidade" />
+        <button type="button" (click)="removerHabilidade($index)">Remover</button>
+      </div>
+      @if (habilidade.invalid && habilidade.touched) {
+        <span class="error-message">Habilidade é obrigatória.</span>
+      }
+    }
+  </div>
+
+  <button type="button" (click)="adicionarHabilidade()">Adicionar habilidade</button>
+  <button type="submit" [disabled]="form.invalid">Salvar experiência</button>
+
+  @if (enviado && form.valid) {
+    <p class="success-message">Experiência cadastrada com sucesso.</p>
+  }
+</form>
